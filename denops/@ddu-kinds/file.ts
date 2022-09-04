@@ -261,14 +261,14 @@ export class Kind extends BaseKind<Params> {
 
       for (const item of args.items) {
         const action = item?.action as ActionData;
+        const path = action.path ?? item.word;
 
         if (action.bufNr != null) {
           if (openCommand != "edit") {
-            await args.denops.call("ddu#util#execute_path", openCommand, "");
+            await args.denops.call("ddu#util#execute_path", openCommand, path);
           }
           await args.denops.cmd(`buffer ${action.bufNr}`);
         } else {
-          const path = action.path ?? item.word;
           if (new RegExp("^https?://").test(path)) {
             // URL
             await args.denops.call("ddu#kind#file#open", path);
